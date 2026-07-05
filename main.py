@@ -1,5 +1,9 @@
 import time
 import random
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+BEIJING = ZoneInfo("Asia/Shanghai")  # 时段问候锚定北京，不信任服务器时钟
 import asyncio
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
@@ -62,7 +66,7 @@ class PokeCeliiPlugin(Star):
         return self._poke_count_map[user_id]
 
     def _get_time_period(self) -> str:
-        hour = time.localtime().tm_hour
+        hour = datetime.now(BEIJING).hour
         if 6 <= hour < 9:
             return "早晨"
         elif 9 <= hour < 12:
